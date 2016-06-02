@@ -1,14 +1,12 @@
-nsh: main.l main.y parse.h parse.c
-	bison -d main.y
-	flex main.l
-	gcc -g -Wno-implicit-function-declaration -Wno-int-conversion -o $@ main.tab.c lex.yy.c parse.c
+out: main.c
+	gcc -g -o $@ main.c
 
-run: nsh
-	./nsh
+run: out
+	./out
 
-memcheck: nsh
-	valgrind --tool=memcheck --leak-check=yes ./nsh
+memcheck: out
+	valgrind --tool=memcheck --leak-check=yes ./out
 
 .PHONY: clean
 clean:
-	rm -f parse ./nsh ./lex.yy.c ./main.tab.c ./main.tab.h 
+	rm -f out
